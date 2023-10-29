@@ -2,6 +2,7 @@ package kr.ac.wku.listview_231029
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import kr.ac.wku.listview_231029.Adapters.StudentAdapter
 import kr.ac.wku.listview_231029.Datas.StudentData
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         mStudentList.add(StudentData("j", 1999, "010-1234-1234"))
         mStudentList.add(StudentData("k", 2000, "010-1234-1234"))
         mStudentList.add(StudentData("l", 2001, "010-1234-1234"))
-        mStudentList.add(StudentData("m", 2002, "010-1234-1234"))
+        mStudentList.add(StudentData("m", 2002))
 
         //수기작업 : mStudentList에 임시 학생 데이터 추가
         /*
@@ -42,5 +43,23 @@ class MainActivity : AppCompatActivity() {
         mStdAdapter = StudentAdapter(this, R.layout.student_list_item, mStudentList)
 
         binding.studentListView.adapter = mStdAdapter
+
+        //한명의 학생을 클릭하면 -> 토스트로 이름 연락처를 출력하는 것.(Event)
+
+        binding.studentListView.setOnItemClickListener { adapterView, view, position, l ->
+            //이 함수의 세번째 변수(i, position) -> 클릭된 위치를 알려주는 역할
+            val clickedStd = mStudentList[position]
+            Toast.makeText(this, "${clickedStd.name} : ${clickedStd.phoneNum}", Toast.LENGTH_SHORT).show()
+        }
+
+        //한명의 학생을 오래 클릭하면 -> 해당 학생 삭제
+        binding.studentListView.setOnItemLongClickListener { adapterView, view, position, l ->
+            //long click event -> boolean type의 리턴값을 받도록 되어잇음.
+            mStudentList.removeAt(position) //내용물 변경 발생
+            mStdAdapter.notifyDataSetChanged()
+
+
+            return@setOnItemLongClickListener true
+        }
     }
 }

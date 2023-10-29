@@ -17,4 +17,6 @@ class StudentData( //StudnetData의 생성자를 변경했습니다. : 이름, �
     {
         Log.d("StudentData", "klk")
     }
+
+
 }
