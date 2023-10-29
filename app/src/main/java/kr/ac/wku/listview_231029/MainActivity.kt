@@ -1,8 +1,10 @@
 package kr.ac.wku.listview_231029
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import kr.ac.wku.listview_231029.Adapters.StudentAdapter
 import kr.ac.wku.listview_231029.Datas.StudentData
@@ -55,8 +57,21 @@ class MainActivity : AppCompatActivity() {
         //한명의 학생을 오래 클릭하면 -> 해당 학생 삭제
         binding.studentListView.setOnItemLongClickListener { adapterView, view, position, l ->
             //long click event -> boolean type의 리턴값을 받도록 되어잇음.
-            mStudentList.removeAt(position) //내용물 변경 발생
-            mStdAdapter.notifyDataSetChanged()
+
+            val alert = AlertDialog.Builder(this)
+            alert.setTitle("삭제확인")
+            alert.setMessage("정말 ${mStudentList[position].name}학생을 삭제하시겠습니까?")
+            alert.setPositiveButton("확인", DialogInterface.OnClickListener{
+                dialogInterface, i ->
+                mStudentList.removeAt(position) //내용물 변경 발생
+                mStdAdapter.notifyDataSetChanged()
+                //삭제기능은 확인 버튼이 눌릴때 실행
+                // 오래 클릭된 학생 => 목록에서 삭제
+            })
+            alert.setNegativeButton("취소", null)
+            alert.show()
+            //정말 지울건지 물어보고 OK라면 해당 학생을 삭제하도록 추가
+
 
 
             return@setOnItemLongClickListener true
