@@ -25,12 +25,16 @@ class StudentAdapter(
     //커스텀으로 만든 xml을 코틀린단으로 끌어와주는 객체
     val inf = LayoutInflater.from(mContext)
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-
+        //tempRow의 역할 : 리스트뷰의 재사용성에서 나오는 null가능성을 대비하기 위한 임시 변수
         var tempRow = convertView
+
+        // tempRow 가 null(재사용할 row가 아직 안그려짐)
         if(tempRow == null)
         {
             tempRow = inf.inflate(R.layout.student_list_item, null)
         }
+        //if문에서 빠져나온 후 -> 원래 null이면 새로 그려서 넣어줌 null이 아니면 그대로 있던거 활용
+        //tempRow에 null상태일 가능성 제거
 
         val row = tempRow!!
         //
